@@ -1,9 +1,10 @@
-import React from 'react';
-
-function Input() {
-  return (
-    <input type="text" className="p-2 border border-gray-800 rounded-md" />
-  );
+interface InputProps {
+  type: string;
 }
 
+function Input({ type }: InputProps) {
+  return (
+    <input type={type} className="w-full p-2 border rounded-md" required />
+  );
+}
 export default Input;
