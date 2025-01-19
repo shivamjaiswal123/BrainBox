@@ -14,8 +14,8 @@ function Sidebar() {
       {/* nav items */}
       <div>
         <div className="space-y-6 px-8 py-6">
-          {sideBarItems.map((item) => (
-            <div className="flex items-center gap-3 cursor-pointer">
+          {sideBarItems.map((item, index) => (
+            <div key={index} className="flex items-center gap-3 cursor-pointer">
               {item.icon} <span className="font-semibold">{item.title}</span>
             </div>
           ))}
