@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
 import NotFound from './components/NotFound';
 import Signin from './pages/Signin';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster position="top-right" />
     </>
   );
 }

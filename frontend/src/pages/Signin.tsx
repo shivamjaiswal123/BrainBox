@@ -1,7 +1,20 @@
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 function Signin() {
   const navigate = useNavigate();
+  const { userSignin } = useAuth();
+
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const doSignin = () => {
+    const username = usernameRef.current!.value;
+    const password = passwordRef.current!.value;
+
+    userSignin({ username, password });
+  };
   return (
     <div className="h-screen bg-gradient-to-br from-gray-800 to-gray-900 flex justify-center items-center p-6 tracking-wide">
       <div className="max-w-md bg-gray-700 rounded-md px-6 py-12 shadow-xl">
@@ -15,16 +28,21 @@ function Signin() {
         </h1>
         <div className="space-y-2">
           <input
+            ref={usernameRef}
             type="text"
             placeholder="Username"
             className="w-full bg-gray-800 p-2 rounded-md placeholder-gray-400 text-white outline-none"
           />
           <input
+            ref={passwordRef}
             type="text"
             placeholder="Password"
             className="w-full bg-gray-800 p-2 rounded-md placeholder-gray-400 text-white outline-none"
           />
-          <button className="text-white bg-indigo-600 w-full py-2 rounded-md font-semibold hover:bg-indigo-700 duration-300">
+          <button
+            onClick={doSignin}
+            className="text-white bg-indigo-600 w-full py-2 rounded-md font-semibold hover:bg-indigo-700 duration-300"
+          >
             Signin
           </button>
         </div>
