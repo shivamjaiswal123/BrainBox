@@ -5,7 +5,7 @@ import { X } from '../icons/X';
 
 interface CardProps {
   link: string;
-  type: 'youtube' | 'twitter';
+  type: 'youtube' | 'tweet';
   title: string;
 }
 
@@ -14,7 +14,7 @@ function Card({ link, type, title }: CardProps) {
     <div className="max-w-72 max-h-96 p-4 bg-white shadow-md rounded outline outline-1 outline-slate-300">
       <header className="flex justify-between">
         <div className="flex items-center gap-4">
-          {type === 'twitter' ? <X /> : <Video />}
+          {type === 'tweet' ? <X /> : <Video />}
           <p className="text-black font-semibold">{title}</p>
         </div>
         <div className="flex items-center gap-4">
@@ -36,7 +36,7 @@ function Card({ link, type, title }: CardProps) {
           />
         )}
 
-        {type == 'twitter' && (
+        {type == 'tweet' && (
           <blockquote className="twitter-tweet" data-cards="hidden">
             <a href={link}></a>
           </blockquote>

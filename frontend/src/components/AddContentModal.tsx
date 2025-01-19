@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Cross } from '../icons/Cross';
 import Label from './Label';
 import Input from './Input';
+import { useContent } from '../hooks/useContent';
 
 interface ModalProps {
   open: boolean;
@@ -10,9 +11,21 @@ interface ModalProps {
 
 function AddContentModal({ open, close }: ModalProps) {
   const [type, setType] = useState('');
+  const titleRef = useRef<HTMLInputElement>(null);
+  const urlRef = useRef<HTMLInputElement>(null);
+  const todoRef = useRef<HTMLTextAreaElement>(null);
+
+  const { addNewContent } = useContent();
 
   const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setType(e.target?.value);
+  };
+
+  const addContent = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const title = titleRef.current?.value;
+    const link = urlRef.current?.value;
+    addNewContent({ type, title, link });
   };
 
   return (
@@ -26,7 +39,7 @@ function AddContentModal({ open, close }: ModalProps) {
               </button>
             </div>
             <h2 className="text-lg font-bold mb-6">Add New Content</h2>
-            <form>
+            <form onSubmit={addContent}>
               <div className="mb-4 flex items-center gap-4">
                 <Label label="Type" />
                 <select
@@ -37,19 +50,20 @@ function AddContentModal({ open, close }: ModalProps) {
                 >
                   <option value="">Select content type</option>
                   <option value="youtube">YouTube</option>
-                  <option value="x">X</option>
-                  <option value="links">Links</option>
-                  <option value="todos">Todos</option>
+                  <option value="tweet">X</option>
+                  <option value="link">Link</option>
+                  <option value="todo">Todo</option>
                 </select>
               </div>
               <div className="mb-4 flex items-center gap-4">
                 <Label label="Title" />
-                <Input type="text" />
+                <Input type="text" iRef={titleRef} />
               </div>
               {type === 'todos' ? (
                 <div className="mb-4 flex items-center gap-4">
                   <Label label="Description" />
                   <textarea
+                    ref={todoRef}
                     className="w-full p-2 border rounded-md"
                     required
                   ></textarea>
@@ -57,7 +71,7 @@ function AddContentModal({ open, close }: ModalProps) {
               ) : (
                 <div className="mb-4 flex items-center gap-4">
                   <Label label="URL" />
-                  <Input type="url" />
+                  <Input type="url" iRef={urlRef} />
                 </div>
               )}
               <div className="text-end">

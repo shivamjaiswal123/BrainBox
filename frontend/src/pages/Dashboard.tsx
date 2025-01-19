@@ -5,10 +5,14 @@ import { PlusIcon } from '../icons/PlusIcon';
 import { ShareIcon } from '../icons/ShareIcon';
 import AddContentModal from '../components/AddContentModal';
 import ShareBrainModal from '../components/ShareBrainModal';
+import { useContent } from '../hooks/useContent';
+import Card from '../components/Card';
 
 function Dashboard() {
   const [openAddContentModal, setOpenAddContentModal] = useState(false);
   const [openShareBrainModal, setOpenShareBrainModal] = useState(false);
+
+  const { allContent, isLoading } = useContent();
 
   return (
     <div className="flex">
@@ -47,7 +51,25 @@ function Dashboard() {
         </header>
 
         {/* All content */}
-        <div className="flex flex-wrap gap-6 mt-10"></div>
+        <div className="flex flex-wrap gap-6 mt-10">
+          {isLoading ? (
+            <div className="fixed inset-0 flex justify-center left-20">
+              <span className="loading loading-dots loading-md"></span>
+            </div>
+          ) : (
+            allContent.map((content: any, index: number) => {
+              return (
+                <div key={index}>
+                  <Card
+                    title={content.title}
+                    type={content.type}
+                    link={content.link}
+                  />
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
     </div>
   );
