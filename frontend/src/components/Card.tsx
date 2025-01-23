@@ -27,15 +27,13 @@ function Card({ link, type, title }: CardProps) {
         {type == 'youtube' && (
           <iframe
             className="w-full h-48"
-            src={link.replace('watch', 'embed').replace('?v=', '/')}
+            src={link.split('&')[0].replace('watch?v=', 'embed/')}
             title="YouTube video player"
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
         )}
-
         {type == 'tweet' && (
           <blockquote className="twitter-tweet" data-cards="hidden">
             <a href={link}></a>
