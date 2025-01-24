@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+export const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const config = {
     headers: {
@@ -15,5 +15,10 @@ export const getContent = async () => {
 
 export const addContent = async (content: any) => {
     const { data }  = await axios.post(`${BASE_URL}/api/v1/content`, content, config)
+    return data
+}
+
+export const shareBrain = async (share: { share: boolean }) => {
+    const { data } = await axios.post(`${BASE_URL}/api/v1/brain/share`, share, config)
     return data
 }

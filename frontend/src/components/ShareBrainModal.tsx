@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Cross } from '../icons/Cross';
 import Input from './Input';
+import { useBrain } from '../hooks/useBrain';
+import { BASE_URL } from '../api/content.api';
+import { toast } from 'sonner';
 
 interface ModalProps {
   open: boolean;
@@ -9,6 +12,23 @@ interface ModalProps {
 
 function ShareBrainModal({ open, close }: ModalProps) {
   const [isSharing, setIsSharing] = useState(false);
+  const isMounted = useRef<Boolean>(false);
+  const urlRef = useRef<HTMLInputElement>(null);
+
+  const { mutate: brainShare, data, isPending } = useBrain();
+
+  useEffect(() => {
+    if (isMounted.current) {
+      brainShare({ share: isSharing });
+    } else {
+      isMounted.current = true;
+    }
+  }, [isSharing]);
+
+  const copyToClip = () => {
+    navigator.clipboard.writeText(urlRef.current?.value as string);
+    toast.success('Link copied');
+  };
 
   return (
     <div>
@@ -46,10 +66,19 @@ function ShareBrainModal({ open, close }: ModalProps) {
                     <h1 className="text-sm w-28 font-bold text-black">
                       Share Link
                     </h1>
-                    <Input type="text" />
+                    {!isPending && (
+                      <Input
+                        type="text"
+                        link={`${BASE_URL}/${data?.hash}`}
+                        iRef={urlRef}
+                      />
+                    )}
                   </div>
                   <div className="text-end mt-6">
-                    <button className="px-4 py-2 bg-black font-medium tracking-wider text-sm text-white hover:bg-gray-800 rounded-md transition duration-350">
+                    <button
+                      onClick={copyToClip}
+                      className="px-4 py-2 bg-black font-medium tracking-wider text-sm text-white hover:bg-gray-800 rounded-md transition duration-350"
+                    >
                       Copy Link
                     </button>
                   </div>
