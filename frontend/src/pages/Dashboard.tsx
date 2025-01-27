@@ -29,7 +29,7 @@ function Dashboard() {
         close={() => setOpenShareBrainModal(false)}
       />
 
-      <div className="w-full h-screen bg-gray-300 px-8 py-6 ml-60">
+      <div className="w-full h-full bg-gray-300 px-8 py-6 ml-60">
         <header className="flex justify-between">
           <div>
             <h1 className="font-semibold text-2xl">All Contents</h1>
