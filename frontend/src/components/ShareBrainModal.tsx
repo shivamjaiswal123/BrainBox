@@ -4,6 +4,7 @@ import Input from './Input';
 import { useBrain } from '../hooks/useBrain';
 import { BASE_URL } from '../api/content.api';
 import { toast } from 'sonner';
+import { useShareStatus } from '../hooks/useShareStatus';
 
 interface ModalProps {
   open: boolean;
@@ -12,18 +13,39 @@ interface ModalProps {
 
 function ShareBrainModal({ open, close }: ModalProps) {
   const [isSharing, setIsSharing] = useState(false);
-  const isMounted = useRef<Boolean>(false);
+  // const isMounted = useRef<Boolean>(false);
   const urlRef = useRef<HTMLInputElement>(null);
 
+  // create or remove the shareable link
   const { mutate: brainShare, data, isPending } = useBrain();
 
+  // fetch sharing status on opening the modal
+  const { data: currentSharingStatus } = useShareStatus(open);
+
   useEffect(() => {
-    if (isMounted.current) {
-      brainShare({ share: isSharing });
-    } else {
-      isMounted.current = true;
+    if (currentSharingStatus !== undefined) {
+      // if sharing is enabled then get the already created hash
+      if (currentSharingStatus) {
+        brainShare({ share: currentSharingStatus });
+      }
+      setIsSharing(currentSharingStatus);
     }
-  }, [isSharing]);
+  }, [currentSharingStatus]);
+
+  const handleToggle = () => {
+    setIsSharing((prev) => {
+      brainShare({ share: !prev });
+      return !prev;
+    });
+  };
+
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     brainShare({ share: isSharing });
+  //   } else {
+  //     isMounted.current = true;
+  //   }
+  // }, [isSharing]);
 
   const copyToClip = () => {
     navigator.clipboard.writeText(urlRef.current?.value as string);
@@ -47,7 +69,7 @@ function ShareBrainModal({ open, close }: ModalProps) {
             <div>
               <label className="inline-flex items-center cursor-pointer">
                 <input
-                  onChange={() => setIsSharing(!isSharing)}
+                  onChange={handleToggle}
                   type="checkbox"
                   className="sr-only peer"
                   checked={isSharing}

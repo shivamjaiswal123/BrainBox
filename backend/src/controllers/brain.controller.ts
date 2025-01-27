@@ -14,6 +14,7 @@ export const createShareableLink = async (req: Request, res: Response) => {
             const hashExist = await Link.findOne({ userId })
             if(hashExist){
                 res.json({
+                    message: "You are sharing your brain box",
                     hash: hashExist.hash
                 })
                 return
@@ -24,6 +25,7 @@ export const createShareableLink = async (req: Request, res: Response) => {
                 userId
             })
             res.json({
+                message: "Sharing enabled",
                 hash
             })
         }else{
@@ -31,7 +33,7 @@ export const createShareableLink = async (req: Request, res: Response) => {
             await Link.deleteOne({ userId })
     
             res.json({
-                message: "Removed Link"
+                message: "Sharing disabled"
             })
         }
     } catch (error) {
@@ -59,6 +61,28 @@ export const getBrain = async (req: Request, res: Response) => {
         res.json({
             username: user?.username,
             brain
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error'
+        })
+    }
+}
+
+export const sharingStatus = async (req: Request, res: Response) => {
+    // @ts-ignore
+    const userId = req.userId
+    try {
+        const isSharing = await Link.findOne({ userId })
+        if(!isSharing){
+            res.json({
+                sharing: false
+            })
+            return
+        }
+
+        res.json({
+            sharing: true
         })
     } catch (error) {
         res.status(500).json({
