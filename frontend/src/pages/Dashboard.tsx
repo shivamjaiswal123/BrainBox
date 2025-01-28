@@ -29,7 +29,7 @@ function Dashboard() {
         close={() => setOpenShareBrainModal(false)}
       />
 
-      <div className="w-full h-full bg-gray-300 px-8 py-6 ml-60">
+      <div className="w-full min-h-screen bg-gray-300 px-8 pt-6 pb-12 ml-60">
         <header className="flex justify-between">
           <div>
             <h1 className="font-semibold text-2xl">All Contents</h1>
@@ -64,6 +64,7 @@ function Dashboard() {
                     title={content.title}
                     type={content.type}
                     link={content.link}
+                    id={content._id}
                   />
                 </div>
               );

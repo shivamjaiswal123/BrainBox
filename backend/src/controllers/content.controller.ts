@@ -41,7 +41,7 @@ export const getAllContent = async (req: Request, res: Response) => {
 export const deleteContent = async (req: Request, res: Response) => {
     // @ts-ignore
     const userId = req.userId
-    const { contentId } = req.body
+    const contentId  = req.query.contentId
 
     try {
         // ensures the user who owns the content can delete only

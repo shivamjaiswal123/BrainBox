@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addContent, getContent } from "../api/content.api"
+import { addContent, getContent, removeContent } from "../api/content.api"
 import { toast } from "sonner"
 import { isAxiosError } from "axios"
 
@@ -27,5 +27,22 @@ export const useContent = () => {
             queryClient.invalidateQueries({ queryKey: ['contents'] })
         }
     })
-    return { allContent , isLoading, addNewContent }
+
+    // delete content
+    const { mutate: deleteContent } = useMutation({
+        mutationFn: removeContent,
+        onSuccess: (data) => {
+            toast.success(data.message)
+        },
+        onError: (error) => {
+            if(isAxiosError(error)){
+                toast.error(error.response?.data.message)
+            }
+        },
+        onSettled: () => {
+            // query with 'contents' key will be invalidated
+            queryClient.invalidateQueries({ queryKey: ['contents'] })
+        }
+    })
+    return { allContent , isLoading, addNewContent, deleteContent }
 }

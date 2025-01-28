@@ -1,3 +1,4 @@
+import { useContent } from '../hooks/useContent';
 import { DeleteIcon } from '../icons/DeleteIcon';
 import { ShareIcon } from '../icons/ShareIcon';
 import { Video } from '../icons/Video';
@@ -7,9 +8,16 @@ interface CardProps {
   link: string;
   type: 'youtube' | 'tweet';
   title: string;
+  id: string;
 }
 
-function Card({ link, type, title }: CardProps) {
+function Card({ link, type, title, id }: CardProps) {
+  const { deleteContent } = useContent();
+
+  const deleteC = () => {
+    deleteContent(id);
+  };
+
   return (
     <div className="min-w-72 overflow-clip max-h-96 p-4 bg-white shadow-md rounded outline outline-1 outline-slate-300">
       <header className="flex justify-between">
@@ -18,8 +26,8 @@ function Card({ link, type, title }: CardProps) {
           <p className="text-black font-semibold">{title}</p>
         </div>
         <div className="flex items-center gap-4">
-          <ShareIcon />
-          <DeleteIcon />
+          {/* <ShareIcon /> */}
+          <DeleteIcon deleteC={deleteC} />
         </div>
       </header>
 
@@ -35,9 +43,11 @@ function Card({ link, type, title }: CardProps) {
           />
         )}
         {type == 'tweet' && (
-          <blockquote className="twitter-tweet" data-cards="hidden">
-            <a href={link.replace('/x', '/twitter')}></a>
-          </blockquote>
+          <div>
+            <blockquote className="twitter-tweet" data-cards="hidden">
+              <a href={link.replace('/x', '/twitter')}></a>
+            </blockquote>
+          </div>
         )}
       </div>
     </div>
