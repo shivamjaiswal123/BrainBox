@@ -22,7 +22,7 @@ export const sideBarItems = [
     icon: <Link />,
   },
   {
-    title: 'Tags',
+    title: 'Todos',
     icon: <Tags />,
   },
 ];

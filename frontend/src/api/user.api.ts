@@ -15,3 +15,17 @@ export const signin = async (userData: User) => {
     const { data }  = await axios.post(`${BASE_URL}/api/v1/signin`, userData)
     return data
 }
+
+export const getSession = async () => {
+    const token = localStorage.getItem('token')
+
+    if(!token){
+        return null
+    }
+    const { data }  = await axios.get(`${BASE_URL}/api/v1/me`, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
+    return data
+}

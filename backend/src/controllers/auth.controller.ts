@@ -92,3 +92,20 @@ export const signin = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const me = async (req: Request, res: Response) => {
+    // @ts-ignore
+    const userId = req.userId
+    const user = await User.findById(userId)
+
+    if(!user){
+        res.json({
+            message: "No user found"
+        })
+        return
+    }
+
+    res.json({
+        user
+    })
+}
