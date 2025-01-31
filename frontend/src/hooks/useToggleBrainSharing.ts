@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query"
-import { shareBrain } from "../api/content.api"
 import { isAxiosError } from "axios"
 import { toast } from "sonner"
+import { toggleBrainSharing } from "../api/brain.api"
 
-export const useBrain = () => {
+export const useToggleBrainSharing = () => {
     return useMutation({
-        mutationFn: shareBrain,
+        mutationFn: toggleBrainSharing,
         onSuccess: data => {
             toast.success(data.message)
         },
@@ -13,6 +13,6 @@ export const useBrain = () => {
             if(isAxiosError(error)){
                 toast.error(error.response?.data.message)
             }
-        },
+        }
     })
 }

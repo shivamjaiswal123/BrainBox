@@ -1,10 +1,12 @@
 import { useAuth } from '../hooks/useAuth';
+import { useSession } from '../hooks/useSession';
 import logo from '../icons/logo.png';
 import { Logout } from '../icons/Logout';
 import { sideBarItems } from './SidebarItem';
 
 function Sidebar() {
-  const { session, handleLogout } = useAuth();
+  const { data: session } = useSession();
+  const { handleLogout } = useAuth();
 
   return (
     <div className="bg-white h-screen min-w-60 shadow border-r-2 border-gray-200">

@@ -5,6 +5,7 @@ import NotFound from './components/NotFound';
 import Signin from './pages/Signin';
 import { Toaster } from 'sonner';
 import ProtectedRoute from './components/ProtectedRoute';
+import ShareBrainView from './pages/ShareBrainView';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/:link" element={<ShareBrainView />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useSession } from '../hooks/useSession';
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { session, gettingSession } = useAuth();
+  const { data: session, isLoading: gettingSession } = useSession();
   if (gettingSession) {
     return;
   }

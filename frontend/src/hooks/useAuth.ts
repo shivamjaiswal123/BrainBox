@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { signin, signup, getSession } from "../api/user.api"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { signin, signup } from "../api/user.api"
 import { toast } from "sonner"
 import { isAxiosError } from "axios"
 import { useNavigate } from "react-router-dom"
@@ -23,10 +23,10 @@ export const useAuth = () => {
 
     const { mutate: userSignin, isPending: isSigninPending } = useMutation({
         mutationFn: signin,
-        onSuccess: async (data) => {
+        onSuccess: (data) => {
             toast.success(data.message)
             localStorage.setItem('token', data.token)
-            await queryClient.invalidateQueries({ queryKey: ['user'] })
+            queryClient.invalidateQueries({ queryKey: ['user-session'] })
             navigate('/')
         },
         onError: (error) => {
@@ -36,17 +36,11 @@ export const useAuth = () => {
         }
     })
 
-    // get user session
-    const { data: session, isLoading: gettingSession } = useQuery({
-        queryKey: ['user'],
-        queryFn: getSession
-    })
-
     const handleLogout = () => {
         localStorage.removeItem('token');
-        queryClient.removeQueries({ queryKey: ['user'] });
+        queryClient.removeQueries();
         navigate('/signin');
     };
 
-    return { userSignup, isSignupPending, userSignin, isSigninPending, session, gettingSession, handleLogout }
+    return { userSignup, isSignupPending, userSignin, isSigninPending, handleLogout }
 }

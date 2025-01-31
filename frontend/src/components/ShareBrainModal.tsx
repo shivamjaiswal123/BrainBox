@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Cross } from '../icons/Cross';
 import Input from './Input';
-import { useBrain } from '../hooks/useBrain';
-import { BASE_URL } from '../api/content.api';
+import { useToggleBrainSharing } from '../hooks/useToggleBrainSharing';
 import { toast } from 'sonner';
 import { useShareStatus } from '../hooks/useShareStatus';
 
@@ -17,7 +16,7 @@ function ShareBrainModal({ open, close }: ModalProps) {
   const urlRef = useRef<HTMLInputElement>(null);
 
   // create or remove the shareable link
-  const { mutate: brainShare, data, isPending } = useBrain();
+  const { mutate: toggleBrainShare, data, isPending } = useToggleBrainSharing();
 
   // fetch sharing status on opening the modal
   const { data: currentSharingStatus } = useShareStatus(open);
@@ -26,7 +25,7 @@ function ShareBrainModal({ open, close }: ModalProps) {
     if (currentSharingStatus !== undefined) {
       // if sharing is enabled then get the already created hash
       if (currentSharingStatus) {
-        brainShare({ share: currentSharingStatus });
+        toggleBrainShare({ share: currentSharingStatus });
       }
       setIsSharing(currentSharingStatus);
     }
@@ -34,14 +33,14 @@ function ShareBrainModal({ open, close }: ModalProps) {
 
   const handleToggle = () => {
     setIsSharing((prev) => {
-      brainShare({ share: !prev });
+      toggleBrainShare({ share: !prev });
       return !prev;
     });
   };
 
   // useEffect(() => {
   //   if (isMounted.current) {
-  //     brainShare({ share: isSharing });
+  //     toggleBrainShare({ share: isSharing });
   //   } else {
   //     isMounted.current = true;
   //   }
@@ -91,7 +90,7 @@ function ShareBrainModal({ open, close }: ModalProps) {
                     {!isPending && (
                       <Input
                         type="text"
-                        link={`${BASE_URL}/${data?.hash}`}
+                        link={`http://localhost:5173/${data?.hash}`}
                         iRef={urlRef}
                       />
                     )}

@@ -22,8 +22,3 @@ export const removeContent = async (contentId: string) => {
     const { data }  = await axios.delete(`${BASE_URL}/api/v1/content?contentId=${contentId}`, config)
     return data
 }
-
-export const shareBrain = async (share: { share: boolean }) => {
-    const { data } = await axios.post(`${BASE_URL}/api/v1/brain/share`, share, config)
-    return data
-}
