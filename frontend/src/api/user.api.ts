@@ -12,20 +12,26 @@ export const signup = async (userData: User) => {
 }
 
 export const signin = async (userData: User) => {
-    const { data }  = await axios.post(`${BASE_URL}/api/v1/signin`, userData)
+    const { data }  = await axios.post(`${BASE_URL}/api/v1/signin`, userData, {
+        withCredentials: true
+    })
     return data
 }
 
 export const getSession = async () => {
-    const token = localStorage.getItem('token')
-
-    if(!token){
+    try {
+        const { data }  = await axios.get(`${BASE_URL}/api/v1/me`, {
+            withCredentials: true
+        })
+        return data
+    } catch (error) {
         return null
     }
-    const { data }  = await axios.get(`${BASE_URL}/api/v1/me`, {
-        headers: {
-            Authorization: "Bearer " + token
-        }
+}
+
+export const logout = async () => {
+    const { data }  = await axios.post(`${BASE_URL}/api/v1/logout`,{}, {
+        withCredentials: true
     })
     return data
 }

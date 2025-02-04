@@ -2,9 +2,7 @@ import axios, { isAxiosError } from "axios"
 import { BASE_URL } from "./content.api"
 
 const config = {
-    headers: {
-        Authorization: 'Bearer '+ localStorage.getItem('token')
-    }
+    withCredentials: true
 }
 
 export const toggleBrainSharing = async (share: { share: boolean }) => {

@@ -82,10 +82,15 @@ export const signin = async (req: Request, res: Response) => {
         // generate token
         const token = jwt.sign( { userId: userExist._id }, process.env.JWT_SECRET_PASSWORD!)
 
-        res.json({
-            message: 'User signed in successfully',
-            token
-        })
+        res.cookie('token', token, { httpOnly: true })
+            .json({
+                message: 'User signed in successfully',
+            })
+
+        // res.json({
+        //     message: 'User signed in successfully',
+        //     token
+        // })
     } catch (error: any) {
         res.status(500).json({
             message: 'Internal server error'
@@ -107,5 +112,12 @@ export const me = async (req: Request, res: Response) => {
 
     res.json({
         user
+    })
+}
+
+export const logout = async (req: Request, res: Response) => {
+    res.clearCookie('token')
+    res.json({
+        message: "User logged out"
     })
 }

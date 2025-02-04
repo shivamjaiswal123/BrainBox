@@ -3,9 +3,7 @@ import axios from "axios"
 export const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const config = {
-    headers: {
-        Authorization: 'Bearer '+ localStorage.getItem('token')
-    }
+    withCredentials: true
 }
 
 export const getContent = async () => {
