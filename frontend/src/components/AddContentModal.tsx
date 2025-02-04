@@ -59,7 +59,7 @@ function AddContentModal({ open, close }: ModalProps) {
                 <Label label="Title" />
                 <Input type="text" iRef={titleRef} />
               </div>
-              {type === 'todos' ? (
+              {type === 'todo' ? (
                 <div className="mb-4 flex items-center gap-4">
                   <Label label="Description" />
                   <textarea

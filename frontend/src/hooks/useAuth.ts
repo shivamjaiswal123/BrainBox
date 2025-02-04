@@ -27,7 +27,7 @@ export const useAuth = () => {
             toast.success(data.message)
             // localStorage.setItem('token', data.token)
             queryClient.invalidateQueries({ queryKey: ['user-session'] })
-            navigate('/')
+            navigate('/dashboard')
         },
         onError: (error) => {
             if(isAxiosError(error)){

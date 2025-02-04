@@ -5,5 +5,6 @@ export const useSession = () => {
   return useQuery({
     queryKey: ['user-session'],
     queryFn: getSession,
+    gcTime: 0,
   });
 };

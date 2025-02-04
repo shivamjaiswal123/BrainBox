@@ -33,19 +33,18 @@ function Sidebar() {
             <div tabIndex={0} className="w-8 rounded-md bg-teal-500" />
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              className="dropdown-content menu bg-base-100 rounded-md w-52 shadow mb-2"
             >
               <li>
-                <div className="font-medium">{session.user.username}</div>
-              </li>
-              <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
-              <li>
-                <button onClick={handleLogout} className="text-red-600">
+                <button onClick={() => handleLogout()} className="text-red-600">
                   <Logout />
                   Logout
                 </button>
               </li>
             </ul>
+            <span className="font-semibold self-center">
+              {session.user.username}
+            </span>
           </div>
         )}
       </div>

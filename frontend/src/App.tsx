@@ -6,13 +6,15 @@ import Signin from './pages/Signin';
 import { Toaster } from 'sonner';
 import ProtectedRoute from './components/ProtectedRoute';
 import ShareBrainView from './pages/ShareBrainView';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />

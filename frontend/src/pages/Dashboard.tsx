@@ -7,6 +7,7 @@ import AddContentModal from '../components/AddContentModal';
 import ShareBrainModal from '../components/ShareBrainModal';
 import { useContent } from '../hooks/useContent';
 import Card from '../components/Card';
+import Spinner from '../components/Spinner';
 
 function Dashboard() {
   const [openAddContentModal, setOpenAddContentModal] = useState(false);
@@ -53,9 +54,7 @@ function Dashboard() {
         {/* All content */}
         <div className="flex flex-wrap gap-6 mt-10">
           {isLoading ? (
-            <div className="fixed inset-0 flex justify-center left-20">
-              <span className="loading loading-dots loading-md"></span>
-            </div>
+            <Spinner />
           ) : (
             allContent.map((content: any, index: number) => {
               return (
